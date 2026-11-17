@@ -1,0 +1,205 @@
+/**
+ * Infynipay Admin Setup & Connect Card CSS
+ * Logo switching, disconnected card, control group alignment
+ */
+
+/* ============================================================
+   Gateway apps wrapper — 2-column layout
+   ============================================================ */
+.ph-gateway-apps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: flex-start;
+    max-width: 720px;
+    margin-bottom: 24px;
+}
+
+/* ============================================================
+   Logo — dual light/dark image switch (CSS-only, no JS)
+   ============================================================ */
+.ph-logo-wrap {
+    flex-shrink: 0;
+    line-height: 0;
+}
+
+.ph-logo {
+    height: 40px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Default: light theme */
+.ph-logo--on-dark  { display: none; }
+.ph-logo--on-light { display: block; }
+
+/* OS-level dark preference */
+@media (prefers-color-scheme: dark) {
+    .ph-logo--on-light { display: none !important; }
+    .ph-logo--on-dark  { display: block !important; }
+}
+
+/* Bootstrap 5 data attribute */
+[data-bs-theme="dark"] .ph-logo--on-light { display: none !important; }
+[data-bs-theme="dark"] .ph-logo--on-dark  { display: block !important; }
+
+/* Joomla Atum */
+.joomla-color-scheme-dark .ph-logo--on-light { display: none !important; }
+.joomla-color-scheme-dark .ph-logo--on-dark  { display: block !important; }
+
+/* ============================================================
+   Disconnected (not yet connected) card
+   ============================================================ */
+.ph-card-disconnected {
+    width: 100%;
+    max-width: 720px;
+    border: 1px solid #000 !important;
+    box-shadow: none !important;
+}
+
+.ph-card-disconnected-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 0.75rem;
+    background: linear-gradient(180deg, #f7f8fa 0%, #eef2f6 100%);
+    border-bottom: 1px solid #e3e8ee;
+}
+
+.ph-card-disconnected-title {
+    flex: 1 1 220px;
+    min-width: 0;
+    overflow-wrap: anywhere;
+    color: #14213d;
+    margin: 0;
+}
+
+.ph-card-disconnected-body {
+    background: #ffffff;
+}
+
+/* ============================================================
+   Connected card
+   ============================================================ */
+.ph-card-connected {
+    border: 1px solid #000;
+    box-shadow: none;
+}
+
+.ph-card-connected-header {
+    background: linear-gradient(180deg, #f4f9ff 0%, #e8f1ff 100%);
+    border-bottom: 1px solid #d4e4ff;
+}
+
+.ph-card-connected-title {
+    color: #1d4ed8;
+}
+
+/* ============================================================
+   Control group alignment (Joomla-specific layout helper)
+   ============================================================ */
+.ph-infynipay-control-group {
+    width: 100%;
+    max-width: 980px;
+}
+
+.ph-infynipay-control-group .controls,
+.ph-infynipay-control-group .control-field {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 720px;
+}
+
+.ph-infynipay-control-group .card,
+.ph-infynipay-control-group .ph-providers-card {
+    width: 100%;
+    max-width: 720px;
+}
+
+/* ============================================================
+   Log viewer path
+   ============================================================ */
+.ph-log-path {
+    margin: 0;
+    font-family: monospace;
+    font-size: 11px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* ============================================================
+   Skeleton loading — Infynipay logo (disconnected card header)
+   ============================================================ */
+.ph-card-disconnected.ph-is-loading .ph-logo-wrap {
+    width: 140px;
+    height: 40px;
+    border-radius: 6px;
+    overflow: hidden;
+    background:
+        linear-gradient(#e2e8f0 0 0) 0 0 / 100% 100% no-repeat,
+        linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.72) 50%, rgba(255,255,255,0)) 0 0 / 200% 100% no-repeat;
+    animation: ph-skeleton-shimmer 1.15s ease-in-out infinite;
+}
+.ph-card-disconnected.ph-is-loading .ph-logo { opacity: 0; }
+
+[data-bs-theme="dark"] .ph-card-disconnected.ph-is-loading .ph-logo-wrap,
+.joomla-color-scheme-dark .ph-card-disconnected.ph-is-loading .ph-logo-wrap {
+    background:
+        linear-gradient(#334155 0 0) 0 0 / 100% 100% no-repeat,
+        linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.12) 50%, rgba(255,255,255,0)) 0 0 / 200% 100% no-repeat;
+}
+
+/* ============================================================
+   Dark-mode overrides — connected card
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+    .ph-card-disconnected-header {
+        background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
+        border-bottom-color: #334155;
+    }
+    .ph-card-disconnected-title { color: #e5e7eb; }
+    .ph-card-disconnected-body  { background: #0f172a; }
+    .ph-card-connected          { border-color: #1d4ed8; }
+    .ph-card-connected-header   {
+        background: linear-gradient(180deg, #172554 0%, #1e3a8a 100%);
+        border-bottom-color: #2563eb;
+    }
+    .ph-card-connected-title    { color: #dbeafe; }
+}
+
+[data-bs-theme="dark"] .ph-card-disconnected-header,
+.joomla-color-scheme-dark .ph-card-disconnected-header {
+    background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
+    border-bottom-color: #334155;
+}
+
+[data-bs-theme="dark"] .ph-card-disconnected-title,
+.joomla-color-scheme-dark .ph-card-disconnected-title { color: #e5e7eb; }
+
+[data-bs-theme="dark"] .ph-card-disconnected-body,
+.joomla-color-scheme-dark .ph-card-disconnected-body  { background: #0f172a; }
+
+[data-bs-theme="dark"] .ph-card-connected,
+.joomla-color-scheme-dark .ph-card-connected          { border-color: #1d4ed8; }
+
+[data-bs-theme="dark"] .ph-card-connected-header,
+.joomla-color-scheme-dark .ph-card-connected-header   {
+    background: linear-gradient(180deg, #172554 0%, #1e3a8a 100%);
+    border-bottom-color: #2563eb;
+}
+
+[data-bs-theme="dark"] .ph-card-connected-title,
+.joomla-color-scheme-dark .ph-card-connected-title    { color: #dbeafe; }
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 900px) {
+    .ph-gateway-apps  { flex-direction: column; gap: 16px; }
+    .ph-gateway-card  { max-width: 100%; min-width: 0; }
+}
+
+@media (max-width: 767px) {
+    .ph-card-disconnected-header { align-items: flex-start; }
+}

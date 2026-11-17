@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Joomla Update Server manifest for the Infynipay VirtueMart plugin.
+
+    HOST THIS FILE at:
+        https://extensions.infynipay.com/updates/plg_vmpayment_infynipay.xml
+    (the URL declared in <updateservers> of infynipay.xml)
+
+    DO NOT include this folder in the installable ZIP package.
+
+    On every release: bump <version> here AND in infynipay.xml, and point
+    <downloadurl> at the new package ZIP.
+-->
+<updates>
+    <update>
+        <name>VM Payment - Infynipay</name>
+        <description>Infynipay payment gateway integration for VirtueMart.</description>
+        <element>infynipay</element>
+        <type>plugin</type>
+        <folder>vmpayment</folder>
+        <client>site</client>
+        <version>2.0.13</version>
+        <infourl title="Infynipay">https://www.infynipay.com</infourl>
+        <downloads>
+            <downloadurl type="full" format="zip">https://extensions.infynipay.com/downloads/plg_vmpayment_infynipay-2.0.13.zip</downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <maintainer>Infynipay</maintainer>
+        <maintainerurl>https://www.infynipay.com</maintainerurl>
+        <targetplatform name="joomla" version="(4|5)\.[0-9]+" />
+    </update>
+</updates>

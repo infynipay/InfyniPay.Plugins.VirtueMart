@@ -1,0 +1,274 @@
+/**
+ * Infynipay Gateway Cards & Providers Grid CSS
+ * Sandbox/Live gateway status cards and supported providers grid
+ */
+
+/* ============================================================
+   Gateway apps wrapper — 2 columns
+   ============================================================ */
+.ph-gateway-apps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    width: 100%;
+    max-width: 720px;
+}
+
+/* ============================================================
+   Sandbox / Live gateway card
+   ============================================================ */
+.ph-gateway-card {
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    min-height: 220px;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: none;
+}
+
+/* Left accent bar */
+.ph-gateway-card__accent  { width: 8px; flex: 0 0 8px; }
+.ph-gateway-card--sandbox .ph-gateway-card__accent { background: #f59e0b; }
+.ph-gateway-card--live    .ph-gateway-card__accent { background: #16a34a; }
+
+/* State-specific card background/border */
+.ph-gateway-card--sandbox     { border-color: #fcd34d; background: #fffdf5; }
+.ph-gateway-card--live        { border-color: #86efac; background: #f8fffb; }
+
+.ph-gateway-card__body {
+    flex: 1 1 auto;
+    position: relative;
+    z-index: 1;
+    padding: 1.1rem 1.15rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.ph-gateway-card__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.ph-gateway-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    flex-shrink: 0;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
+}
+
+.ph-gateway-card__icon svg { width: 22px; height: 22px; }
+
+.ph-gateway-card--sandbox .ph-gateway-card__icon {
+    background: linear-gradient(180deg, #fde68a 0%, #fcd34d 100%);
+    color: #92400e;
+}
+
+.ph-gateway-card--live .ph-gateway-card__icon {
+    background: linear-gradient(180deg, #bbf7d0 0%, #86efac 100%);
+    color: #166534;
+}
+
+.ph-gateway-card__title-wrap { min-width: 0; }
+.ph-gateway-card__title    { font-size: 1rem; font-weight: 700; color: #0f172a; line-height: 1.2; }
+.ph-gateway-card__subtitle { margin-top: 0.2rem; font-size: 0.78rem; color: #475569; line-height: 1.45; }
+
+.ph-gateway-card__status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 42px;
+    padding: 0.65rem 0.8rem;
+    border-radius: 12px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(255, 255, 255, 0.72);
+    font-size: 0.82rem;
+    color: #334155;
+}
+
+.ph-gateway-card--ready       .ph-gateway-card__status { border-color: rgba(34,197,94,0.28);   background: rgba(240,253,244,0.95); }
+.ph-gateway-card--incomplete  .ph-gateway-card__status { border-color: rgba(245,158,11,0.3);   background: rgba(255,251,235,0.95); }
+.ph-gateway-card--disconnected .ph-gateway-card__status { border-color: rgba(148,163,184,0.22); background: rgba(248,250,252,0.95); }
+
+.ph-gateway-card__dot { width: 8px; height: 8px; border-radius: 50%; background: #94a3b8; box-shadow: 0 0 0 3px rgba(148,163,184,0.18); }
+.ph-gateway-card--ready       .ph-gateway-card__dot { background: #16a34a; box-shadow: 0 0 0 3px rgba(22,163,74,0.18); }
+.ph-gateway-card--incomplete  .ph-gateway-card__dot { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.18); }
+
+.ph-gateway-card__action {
+    align-self: flex-start;
+    margin-top: auto;
+    border-radius: 999px;
+    padding-inline: 0.95rem;
+    font-weight: 700;
+    box-shadow: none;
+}
+
+/* ============================================================
+   Supported Gateways — providers card + grid
+   ============================================================ */
+.ph-providers-card {
+    width: 100%;
+    max-width: 720px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 14px;
+    padding: 1rem 1.1rem;
+    box-sizing: border-box;
+    background: #ffffff;
+    margin-bottom: 1rem;
+}
+
+.ph-providers-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    grid-auto-rows: minmax(48px, auto);
+    gap: 0.5rem;
+    width: 100%;
+    padding-right: 0.15rem;
+}
+
+.ph-provider-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    min-width: 0;
+    width: 100%;
+    padding: 0.4rem;
+    box-sizing: border-box;
+}
+
+.ph-provider-art {
+    max-width: 100%;
+    max-height: 30px;
+    object-fit: contain;
+}
+
+.ph-providers-empty { margin: 0; color: #6b7280; }
+
+/* ============================================================
+   Skeleton loading — gateway cards
+   ============================================================ */
+@keyframes ph-skeleton-shimmer { 0% { background-position: 200% 0 } 100% { background-position: -200% 0 } }
+@keyframes ph-sk-sweep { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+.ph-gateway-card.ph-is-loading { pointer-events: none; }
+.ph-gateway-card.ph-is-loading .ph-gateway-card__accent,
+.ph-gateway-card.ph-is-loading .ph-gateway-card__body > * { opacity: 0; }
+.ph-gateway-card.ph-is-loading::before {
+    content: ''; position: absolute; inset: 1rem; z-index: 2; border-radius: 14px;
+    background:
+        linear-gradient(#e2e8f0 0 0) 0 0       / 42px 42px   no-repeat,
+        linear-gradient(#e2e8f0 0 0) 58px 4px  / 94px 14px   no-repeat,
+        linear-gradient(#e2e8f0 0 0) 58px 24px / 160px 10px  no-repeat,
+        linear-gradient(#e2e8f0 0 0) 0 86px    / 100% 42px   no-repeat,
+        linear-gradient(#e2e8f0 0 0) 0 calc(100% - 40px) / 140px 36px no-repeat,
+        linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.72) 50%, rgba(255,255,255,0)) 0 0 / 200% 100% no-repeat;
+    animation: ph-skeleton-shimmer 1.15s ease-in-out infinite;
+}
+
+/* Skeleton loading — provider tiles */
+.ph-provider-item.ph-is-loading {
+    background: #e2e8f0;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+.ph-provider-item.ph-is-loading img { opacity: 0; }
+.ph-provider-item.ph-is-loading::after {
+    content: ''; position: absolute; inset: 0; transform: translateX(-100%);
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.65) 50%, rgba(255,255,255,0));
+    animation: ph-sk-sweep 1.2s infinite;
+}
+
+/* Dark-mode skeleton variants */
+[data-bs-theme="dark"] .ph-gateway-card.ph-is-loading::before,
+.joomla-color-scheme-dark .ph-gateway-card.ph-is-loading::before {
+    background:
+        linear-gradient(#334155 0 0) 0 0       / 42px 42px   no-repeat,
+        linear-gradient(#334155 0 0) 58px 4px  / 94px 14px   no-repeat,
+        linear-gradient(#334155 0 0) 58px 24px / 160px 10px  no-repeat,
+        linear-gradient(#334155 0 0) 0 86px    / 100% 42px   no-repeat,
+        linear-gradient(#334155 0 0) 0 calc(100% - 40px) / 140px 36px no-repeat,
+        linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.12) 50%, rgba(255,255,255,0)) 0 0 / 200% 100% no-repeat;
+}
+[data-bs-theme="dark"] .ph-provider-item.ph-is-loading,
+.joomla-color-scheme-dark .ph-provider-item.ph-is-loading { background: #334155; }
+
+/* ============================================================
+   Dark mode — gateway cards
+   ============================================================ */
+[data-bs-theme="dark"] .ph-gateway-card,
+.joomla-color-scheme-dark .ph-gateway-card {
+    border-color: rgba(148, 163, 184, 0.2);
+    background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.34);
+}
+
+[data-bs-theme="dark"] .ph-gateway-card--sandbox,
+.joomla-color-scheme-dark .ph-gateway-card--sandbox {
+    border-color: rgba(245, 158, 11, 0.34);
+    background: linear-gradient(180deg, #1f2937 0%, #1b2432 100%);
+}
+
+[data-bs-theme="dark"] .ph-gateway-card--live,
+.joomla-color-scheme-dark .ph-gateway-card--live {
+    border-color: rgba(34, 197, 94, 0.3);
+    background: linear-gradient(180deg, #10231a 0%, #0f172a 100%);
+}
+
+[data-bs-theme="dark"] .ph-gateway-card__title,
+.joomla-color-scheme-dark .ph-gateway-card__title { color: #f8fafc; }
+
+[data-bs-theme="dark"] .ph-gateway-card__subtitle,
+[data-bs-theme="dark"] .ph-gateway-card__status,
+.joomla-color-scheme-dark .ph-gateway-card__subtitle,
+.joomla-color-scheme-dark .ph-gateway-card__status { color: #cbd5e1; }
+
+[data-bs-theme="dark"] .ph-gateway-card__status,
+.joomla-color-scheme-dark .ph-gateway-card__status {
+    background: rgba(15, 23, 42, 0.72);
+    border-color: rgba(148, 163, 184, 0.16);
+}
+
+[data-bs-theme="dark"] .ph-gateway-card--sandbox .ph-gateway-card__icon,
+.joomla-color-scheme-dark .ph-gateway-card--sandbox .ph-gateway-card__icon {
+    background: linear-gradient(180deg, rgba(245,158,11,0.3) 0%, rgba(180,83,9,0.6) 100%);
+    color: #fde68a;
+}
+
+[data-bs-theme="dark"] .ph-gateway-card--live .ph-gateway-card__icon,
+.joomla-color-scheme-dark .ph-gateway-card--live .ph-gateway-card__icon {
+    background: linear-gradient(180deg, rgba(22,163,74,0.32) 0%, rgba(21,128,61,0.62) 100%);
+    color: #bbf7d0;
+}
+
+/* Dark mode — providers card */
+[data-bs-theme="dark"] .ph-providers-card,
+.joomla-color-scheme-dark .ph-providers-card {
+    background: #1e293b;
+    border-color: rgba(148, 163, 184, 0.2);
+}
+
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 991px) {
+    .ph-gateway-apps { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 767px) {
+    .ph-providers-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+
+@media (max-width: 480px) {
+    .ph-providers-card  { padding: 1rem; }
+    .ph-providers-grid  { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}

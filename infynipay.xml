@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="4.0" type="plugin" group="vmpayment" method="upgrade">
+    <name>VM Payment - Infynipay</name>
+    <author>Infynipay</author>
+    <creationDate>2026-06-07</creationDate>
+    <copyright>2024-2026 Infynipay</copyright>
+    <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
+    <authorEmail>support@infynipay.com</authorEmail>
+    <version>2.0.13</version>
+    <description>Infynipay payment gateway integration for VirtueMart. Supports sandbox and live payment processing with comprehensive webhook handling and admin controls.</description>
+
+    <namespace path="src">InfyniPay\Plugin\Payment\Infynipay</namespace>
+
+    <files>
+        <filename plugin="infynipay">infynipay.php</filename>
+        <folder>src</folder>
+        <folder>media</folder>
+        <folder>language</folder>
+    </files>
+
+    <media folder="media" destination="plg_vmpayment_infynipay">
+        <folder>css</folder>
+        <folder>js</folder>
+        <folder>images</folder>
+    </media>
+
+    <languages folder="language">
+        <language tag="en-GB">en-GB/plg_vmpayment_infynipay.ini</language>
+        <language tag="en-GB">en-GB/plg_vmpayment_infynipay.sys.ini</language>
+    </languages>
+
+    <!--
+        Joomla global config: renders the OAuth connect UI in
+        System -> Plugins -> Infynipay. The OAuth credentials
+        (license/app/token/webhook secrets) are stored here, globally,
+        in #__extensions. Per-method order-status mapping lives in <vmconfig>.
+
+        addfieldprefix tells Joomla where to find custom field classes:
+            type="Setupbutton"       -> src/Field/SetupbuttonField.php
+            type="Providersoverview" -> src/Field/ProvidersoverviewField.php
+            type="Logviewer"         -> src/Field/LogviewerField.php
+    -->
+    <config>
+        <fields name="params">
+        <fieldset name="basic" label="PLG_VMPAYMENT_INFYNIPAY_BASIC"
+                  addfieldprefix="InfyniPay\Plugin\Payment\Infynipay\Field">
+
+            <!-- Hidden credential fields - stored programmatically, never rendered as visible inputs -->
+            <field name="license_id"             type="hidden" default="" />
+            <field name="sandbox_app_id"          type="hidden" default="" />
+            <field name="sandbox_token"           type="hidden" default="" />
+            <field name="sandbox_webhook_secret"  type="hidden" default="" />
+            <field name="live_app_id"             type="hidden" default="" />
+            <field name="live_token"              type="hidden" default="" />
+            <field name="live_webhook_secret"     type="hidden" default="" />
+
+            <!-- Sandbox/Live mode toggle (global credential selection) -->
+            <field name="sandbox" type="radio"
+                   label="PLG_VMPAYMENT_INFYNIPAY_SANDBOX_LABEL"
+                   description="PLG_VMPAYMENT_INFYNIPAY_SANDBOX_DESC"
+                   default="1">
+                <option value="1">PLG_VMPAYMENT_INFYNIPAY_SANDBOX</option>
+                <option value="0">PLG_VMPAYMENT_INFYNIPAY_LIVE</option>
+            </field>
+
+            <!-- OAuth Connect Card / Gateway Status Cards -->
+            <field name="setup_button" type="Setupbutton" default=""
+                   label="PLG_VMPAYMENT_INFYNIPAY_SETUP"
+                   description="PLG_VMPAYMENT_INFYNIPAY_SETUP_DESC" />
+
+            <!-- Supported Providers Grid -->
+            <field name="providers_overview" type="Providersoverview" default=""
+                   label="PLG_VMPAYMENT_INFYNIPAY_PROVIDERS"
+                   description="PLG_VMPAYMENT_INFYNIPAY_PROVIDERS_DESC" />
+
+            <!-- Debug log path -->
+            <field name="log_viewer" type="Logviewer" default=""
+                   label="PLG_VMPAYMENT_INFYNIPAY_LOG_LABEL" />
+
+        </fieldset>
+        </fields>
+    </config>
+
+    <updateservers>
+        <server type="extension" priority="2" name="Infynipay Updates">
+            https://extensions.infynipay.com/updates/plg_vmpayment_infynipay.xml
+        </server>
+    </updateservers>
+
+    <!--
+        VirtueMart per-payment-method config. Rendered in
+        VirtueMart -> Shop -> Payment Methods -> [method] -> Configuration.
+    -->
+    <vmconfig>
+        <fields name="params" addfieldpath="/administrator/components/com_virtuemart/fields">
+            <fieldset name="basic" addfieldpath="/administrator/components/com_virtuemart/fields">
+
+                <field name="checkConditionsCore" type="hidden" value="1" default="1" />
+
+                <field name="payment_currency" type="vmacceptedcurrency"
+                       default=""
+                       label="VMPAYMENT_INFYNIPAY_PAYMENT_CURRENCY"
+                       description="VMPAYMENT_INFYNIPAY_PAYMENT_CURRENCY_DESC" />
+
+                <field name="status_pending" type="vmorderstate" scope="com_virtuemart"
+                       default="P"
+                       label="VMPAYMENT_INFYNIPAY_STATUS_PENDING"
+                       description="VMPAYMENT_INFYNIPAY_STATUS_PENDING_DESC" />
+
+                <field name="status_success" type="vmorderstate" scope="com_virtuemart"
+                       default="C"
+                       label="VMPAYMENT_INFYNIPAY_STATUS_SUCCESS"
+                       description="VMPAYMENT_INFYNIPAY_STATUS_SUCCESS_DESC" />
+
+                <field name="status_failed" type="vmorderstate" scope="com_virtuemart"
+                       default="X"
+                       label="VMPAYMENT_INFYNIPAY_STATUS_FAILED"
+                       description="VMPAYMENT_INFYNIPAY_STATUS_FAILED_DESC" />
+
+                <field name="status_refunded" type="vmorderstate" scope="com_virtuemart"
+                       default="R"
+                       label="VMPAYMENT_INFYNIPAY_STATUS_REFUNDED"
+                       description="VMPAYMENT_INFYNIPAY_STATUS_REFUNDED_DESC" />
+
+                <field name="status_cancelled" type="vmorderstate" scope="com_virtuemart"
+                       default="X"
+                       label="VMPAYMENT_INFYNIPAY_STATUS_CANCELLED"
+                       description="VMPAYMENT_INFYNIPAY_STATUS_CANCELLED_DESC" />
+
+                <field name="sandbox" type="radio"
+                       default="1"
+                       label="VMPAYMENT_INFYNIPAY_SANDBOX_LABEL"
+                       description="VMPAYMENT_INFYNIPAY_SANDBOX_DESC">
+                    <option value="1">VMPAYMENT_INFYNIPAY_SANDBOX</option>
+                    <option value="0">VMPAYMENT_INFYNIPAY_LIVE</option>
+                </field>
+
+            </fieldset>
+        </fields>
+    </vmconfig>
+
+</extension>
